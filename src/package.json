@@ -1,0 +1,13 @@
+{
+  "name": "friendly-service",
+  "version": "0.1.0",
+  "description": "send and get phone numbers",
+  "main": "app.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "npm run test"
+  },
+  "author": "brain",
+  "license": "ISC"
+}

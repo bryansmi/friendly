@@ -1,7 +1,8 @@
 {
     "defaultSeverity": "error",
     "extends": [
-        "tslint:recommended"
+        "tslint:recommended",
+        "tslint-microsoft-contrib"
     ],
     "jsRules": {},
     "rules": {
@@ -15,5 +16,5 @@
         "promise-function-async": true,
         "triple-equals": true
     },
-    "rulesDirectory": []
+    "rulesDirectory": ["node_modules/tslint-microsoft-contrib"]
 }

@@ -25,7 +25,7 @@ export class SheetsService {
         this.client = this.getAuthorizedSheetsClient();
     }
 
-    public getPhoneNumberForName(name: string) {
+    public getPhoneNumberForName(name: string): void {
         const auth = this.client;
         const sheets = google.sheets({ version: 'v4', auth });
         sheets.spreadsheets.values.get({
