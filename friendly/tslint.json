@@ -13,6 +13,7 @@
         "trailing-comma": false,
         "await-promise": true,
         "promise-function-async": true,
+        "triple-equals": true
     },
     "rulesDirectory": []
 }

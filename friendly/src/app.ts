@@ -1,40 +1,58 @@
-import * as Twilio from 'twilio';
-import { MessageInteractionList, MessageInteractionInstance } from 'twilio/lib/rest/proxy/v1/service/session/participant/messageInteraction';
+import Twilio from 'twilio';
+import { SheetsService } from './services/sheetsService';
 
-interface ITwilioConfig {
+export interface ITwilioConfig {
     accountSid: string;
     authToken: string;
     sender: string;
 }
 
-const CONFIG: ITwilioConfig = {
+export interface ISheetsConfig {
+    scopes: string[];
+    tokenPath: string;
+    phoneNumberSheetId: string;
+    phoneNumberSheetRange: string;
+}
+
+const TWILIO_CONFIG: ITwilioConfig = {
     accountSid: 'ACf1d0f71e7efbdc73ac92cc8045647b05',
     authToken: '840a4948f94105a1df507227878232a1',
     sender: '+12489651475'
 };
 
+const SHEETS_CONFIG: ISheetsConfig = {
+    phoneNumberSheetId: 'foo',
+    phoneNumberSheetRange: 'bar',
+    scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
+    tokenPath: 'token.json',
+};
+
+// tslint:disable-next-line:only-arrow-functions
 function main(): number {
     console.log('Starting Friendly...');
-    console.log(`accountSid: ${CONFIG.accountSid}`);
-    console.log(`authToken: ${CONFIG.authToken}`);
+    console.log(`accountSid: ${TWILIO_CONFIG.accountSid}`);
+    console.log(`authToken: ${TWILIO_CONFIG.authToken}`);
 
+    const sheetsService = new SheetsService(SHEETS_CONFIG);
+    sheetsService.getPhoneNumberForName('brain');
     sendTextMessage(['+12482077738']);
-
 
     return 0;
 }
 
+// tslint:disable-next-line:only-arrow-functions
 async function sendTextMessage(numbers: string[]): Promise<any> {
-    const client = new Twilio.Twilio(CONFIG.accountSid, CONFIG.authToken);
-    for (let number of numbers) {
+    const client = new Twilio.Twilio(TWILIO_CONFIG.accountSid, TWILIO_CONFIG.authToken);
+    for (const number of numbers) {
         const messageOptions = {
             body: 'hello-test-message',
-            from: CONFIG.sender,
+            from: TWILIO_CONFIG.sender,
             to: number
         };
 
         try {
-            await client.messages.create(messageOptions);
+            const response = await client.messages.create(messageOptions);
+            console.log(`MessageInstance: ${response}`);
         } catch (error) {
             console.error(`Unable to send text message: ${error}`);
         }
