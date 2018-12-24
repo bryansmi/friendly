@@ -3,7 +3,12 @@
   "version": "0.1.0",
   "description": "send and get phone numbers",
   "main": "app.js",
-  "dependencies": {},
+  "dependencies": {
+    "@types/twilio": "0.0.10",
+    "google-auth-library": "^2.0.2",
+    "googleapis": "^36.0.0",
+    "twilio": "^3.26.0"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "npm run test"
