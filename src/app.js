@@ -22,7 +22,8 @@ const SHEETS_CONFIG = {
     phoneNumberSheetId: 'foo',
     phoneNumberSheetRange: 'bar',
     scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
-    tokenPath: 'token.json',
+    tokenPath: '@secrets/google/token.json',
+    credentialsFilePath: '@secrets/google/credentials.json'
 };
 // tslint:disable-next-line:only-arrow-functions
 function main() {

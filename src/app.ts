@@ -10,6 +10,7 @@ export interface ITwilioConfig {
 export interface ISheetsConfig {
     scopes: string[];
     tokenPath: string;
+    credentialsFilePath: string;
     phoneNumberSheetId: string;
     phoneNumberSheetRange: string;
 }
@@ -24,7 +25,8 @@ const SHEETS_CONFIG: ISheetsConfig = {
     phoneNumberSheetId: 'foo',
     phoneNumberSheetRange: 'bar',
     scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
-    tokenPath: 'token.json',
+    tokenPath: '@secrets/google/token.json',
+    credentialsFilePath: '@secrets/google/credentials.json'
 };
 
 // tslint:disable-next-line:only-arrow-functions

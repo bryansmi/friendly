@@ -8,9 +8,9 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/twilio-test/src/app.js",
+            "program": "${workspaceFolder}/friendly-service/src/app.js",
             "outFiles": [
-                "${workspaceFolder}/src/app.js"
+                "${workspaceFolder}/friendly-service/src/app.js"
             ]
         }
     ]
