@@ -4,12 +4,10 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Run build",
+            "label": "compile",
             "type": "shell",
             "command": "tsc",
             "args": [ 
-                "-p",
-                "src",
                 "--skipLibCheck" 
             ],
             "problemMatcher": [
@@ -20,6 +18,15 @@
                 "reveal": "always",
                 "panel": "shared"
             }
+        },
+        {
+            "label": "nb-tsc-watch",
+            "type": "typescript",
+            "tsconfig": "tsconfig.json",
+            "option": "watch",
+            "problemMatcher": [
+                "$tsc-watch"
+            ]
         }
     ]
 }

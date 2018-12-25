@@ -12,6 +12,20 @@
             "outFiles": [
                 "${workspaceFolder}/friendly-service/src/app.js"
             ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug",
+            "preLaunchTask": "nb-tsc-watch",
+            "timeout": 10000,
+            "program": "${workspaceFolder}/src/app.ts",
+            "restart": true,
+            "cwd": "${workspaceRoot}",
+            "outFiles": [
+                "${workspaceFolder}/bin"
+            ],
+            "sourceMaps": true
         }
     ]
 }
