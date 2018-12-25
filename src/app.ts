@@ -9,8 +9,6 @@ export interface ITwilioConfig {
 
 export interface ISheetsConfig {
     scopes: string[];
-    tokenPath: string;
-    credentialsFilePath: string;
     phoneNumberSheetId: string;
     phoneNumberSheetRange: string;
 }
@@ -25,8 +23,6 @@ const SHEETS_CONFIG: ISheetsConfig = {
     phoneNumberSheetId: 'foo',
     phoneNumberSheetRange: 'bar',
     scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
-    tokenPath: '@secrets/google/token.json',
-    credentialsFilePath: '@secrets/google/credentials.json'
 };
 
 // tslint:disable-next-line:only-arrow-functions
@@ -36,7 +32,7 @@ function main(): number {
     console.log(`authToken: ${TWILIO_CONFIG.authToken}`);
 
     const sheetsService = new SheetsService(SHEETS_CONFIG);
-    sheetsService.getPhoneNumberForName('brain');
+    const number = sheetsService.getPhoneNumberForName('brain');
     sendTextMessage(['+12482077738']);
 
     return 0;

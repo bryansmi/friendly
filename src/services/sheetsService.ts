@@ -3,36 +3,38 @@ import { OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
 import readline from 'readline';
 import { ISheetsConfig } from '../app';
+import rawCredentials from '../secrets/google/credentials.json';
 
 interface IClientCredentials {
     id: string;
     secret: string;
-    redirectUris: string[];
+    redirectUri: string;
 }
 
 class ClientCredentials implements IClientCredentials {
     id: string; 
     secret: string;
-    redirectUris: string[];
+    redirectUri: string;
 
     constructor(data: any) {
-        this.id = data.installed.client_id;
-        this.secret = data.installed.client_secret;
-        this.redirectUris = data.installed.client_redirectUris;
+        this.id = data.client_id;
+        this.secret = data.client_secret;
+        this.redirectUri = data.redirect_uris[0];
     }
 }
 
 export class SheetsService {
     private config: ISheetsConfig;
     private client: OAuth2Client;
+    private tokenPath: string = '../secrets/google/token.json';
 
     constructor(config: ISheetsConfig) {
         this.config = config;
         this.client = this.getAuthorizedSheetsClient();
     }
 
-    public getPhoneNumberForName(name: string): void {
-        const auth = this.client;
+    public getPhoneNumberForName(name: string) {
+        const auth = this.client; 
         const sheets = google.sheets({ version: 'v4', auth });
         sheets.spreadsheets.values.get({
             range: this.config.phoneNumberSheetRange,
@@ -59,24 +61,23 @@ export class SheetsService {
      */
     private getAuthorizedSheetsClient(): OAuth2Client {
         let client: OAuth2Client;
-        let credentials: ClientCredentials | undefined;
+        const credentials: ClientCredentials = new ClientCredentials(rawCredentials.installed);
 
-        fs.readFile('../../secrets/google/credentials.json', (err, content) => {
-            if (err) { throw new Error('Failed to load credentials from file: credentials.json'); }
-            const credentialContent = JSON.parse(content.toString());
-            credentials = new ClientCredentials(credentialContent.installed);
-        });
-
-        if (credentials === undefined) { throw new Error('Something went wrong initializing the sheets client.'); }
-
-        client = new google.auth.OAuth2(credentials.id, credentials.secret, credentials.redirectUris[0]);
+        client = new google.auth.OAuth2(credentials.id, credentials.secret, credentials.redirectUri);
         // Check if we have previously stored a token.
-        fs.readFile(this.config.tokenPath, (err, content) => {
-            if (err) {
-                return this.getNewToken(client);
-            }
-            return client.setCredentials(JSON.parse(content.toString()));
-        });
+        // fs.readFile(this.tokenPath, (err, content) => {
+        //     if (err) {
+        //         return this.getNewToken(client);
+        //     }
+        //     return client.setCredentials(JSON.parse(content.toString()));
+        // });
+
+        try {
+            const content = fs.readFileSync(this.tokenPath);
+            client.setCredentials(JSON.parse(content.toString()));
+        } catch {
+            return this.getNewToken(client);
+        }
 
         return client;
     }
@@ -102,9 +103,9 @@ export class SheetsService {
                 if (err) { return console.error('Error while trying to retrieve access token', err); }
                 client.setCredentials(token);
                 // Store the token to disk for later program executions
-                fs.writeFile(this.config.tokenPath, JSON.stringify(token), (err) => {
+                fs.writeFile(this.tokenPath, JSON.stringify(token), (err) => {
                     if (err) { throw new Error(`Couldn't get new token for sheets client: ${err}`); }
-                    console.log('Token stored to', this.config.tokenPath);
+                    console.log('Token stored to', this.tokenPath);
                 });
             });
         });

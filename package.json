@@ -4,11 +4,12 @@
   "description": "send and get phone numbers",
   "main": "app.js",
   "dependencies": {
+    "@types/node": "^10.12.18",
     "@types/twilio": "0.0.10",
     "google-auth-library": "^2.0.2",
     "googleapis": "^36.0.0",
-    "tspath": "^1.3.7",
-    "twilio": "^3.26.0"
+    "twilio": "^3.26.0",
+    "typescript": "^3.2.2"
   },
   "devDependencies": {},
   "scripts": {

@@ -17,15 +17,15 @@
             "type": "node",
             "request": "launch",
             "name": "Debug",
-            "preLaunchTask": "nb-tsc-watch",
-            "timeout": 10000,
+            "preLaunchTask": "compile",
             "program": "${workspaceFolder}/src/app.ts",
-            "restart": true,
+            "protocol": "inspector",
             "cwd": "${workspaceRoot}",
             "outFiles": [
                 "${workspaceFolder}/bin/**/*.js"
             ],
-            "sourceMaps": true
+            "sourceMaps": true,
+            "smartStep": true
         }
     ]
 }
