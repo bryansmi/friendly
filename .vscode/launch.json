@@ -23,7 +23,7 @@
             "restart": true,
             "cwd": "${workspaceRoot}",
             "outFiles": [
-                "${workspaceFolder}/bin"
+                "${workspaceFolder}/bin/**/*.js"
             ],
             "sourceMaps": true
         }
