@@ -1,9 +1,9 @@
-import fs from 'fs';
+import * as fs from 'fs';
 import { OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
-import readline from 'readline';
+import * as readline from 'readline';
 import { ISheetsConfig } from '../app';
-import rawCredentials from '../secrets/google/credentials.json';
+import * as rawCredentials from '../secrets/google/credentials.json';
 
 interface IClientCredentials {
     id: string;

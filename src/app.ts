@@ -1,4 +1,4 @@
-import Twilio from 'twilio';
+import * as Twilio from 'twilio';
 import { SheetsService } from './services/sheetsService';
 
 export interface ITwilioConfig {
