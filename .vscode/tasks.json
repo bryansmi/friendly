@@ -12,22 +12,14 @@
                 "src",
                 "--skipLibCheck" 
             ],
+            "problemMatcher": [
+                "$tsc"
+            ],
             "group": "build",
             "presentation": {
                 "reveal": "always",
-                "panel": "new"
+                "panel": "shared"
             }
         }
-        // {
-        //     "type": "typescript",
-        //     "tsconfig": "friendly-service/src/tsconfig.json",
-        //     "problemMatcher": [
-        //         "$tsc",
-        //     ],
-        //     "group": {
-        //         "kind": "build",
-        //         "isDefault": true
-        //     }
-        // },
     ]
 }
