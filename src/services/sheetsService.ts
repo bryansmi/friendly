@@ -1,9 +1,10 @@
 import * as fs from 'fs';
-import { OAuth2Client } from 'google-auth-library';
+import { OAuth2Client, JWT } from 'google-auth-library';
 import { google } from 'googleapis';
 import * as readline from 'readline';
 import { ISheetsConfig } from '../app';
 import * as rawCredentials from '../secrets/google/credentials.json';
+import * as serviceAccountCredentials from '../secrets/google/friendly-service-serviceaccount-creds.json';
 
 interface IClientCredentials {
     id: string;
@@ -59,18 +60,22 @@ export class SheetsService {
      * given callback function.
      * @param {Object} credentials The authorization client credentials.
      */
-    private getAuthorizedSheetsClient(): OAuth2Client {
-        let client: OAuth2Client;
-        const credentials: ClientCredentials = new ClientCredentials(rawCredentials.installed);
+    private async getAuthorizedSheetsClient(): Promise<JWT> {
+        let client: JWT;
+        // const credentials: ClientCredentials = new ClientCredentials(rawCredentials.installed);
 
-        client = new google.auth.OAuth2(credentials.id, credentials.secret, credentials.redirectUri);
-        // Check if we have previously stored a token.
-        // fs.readFile(this.tokenPath, (err, content) => {
-        //     if (err) {
-        //         return this.getNewToken(client);
-        //     }
-        //     return client.setCredentials(JSON.parse(content.toString()));
-        // });
+        // client = new google.auth.OAuth2(credentials.id, credentials.secret, credentials.redirectUri);
+        client = new google.auth.JWT(serviceAccountCredentials.client_email,
+            undefined,
+            serviceAccountCredentials.private_key,
+            ['https://www.googleapis.com/auth/spreadsheets']
+        );
+
+        try {
+            await client.authorize();
+        } catch (error) {
+            console.log(error);
+        }
 
         try {
             const content = fs.readFileSync(this.tokenPath);
@@ -97,6 +102,8 @@ export class SheetsService {
             input: process.stdin,
             output: process.stdout,
         });
+        // 4/vgBtMBY9hxWxYtwYuZFFYkVRFufbgxMwugROExfORLkqBdRuiDHSE_E
+        // 4/vgAK3y7jzq0geTQrstdANruS-L3x13N77mJKzPZwMXNGcOz-1mJ5QxAv
         rl.question('Enter the code from that page here: ', (code) => {
             rl.close();
             client.getToken(code, (err: any, token: any) => {

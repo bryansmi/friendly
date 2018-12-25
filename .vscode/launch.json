@@ -8,9 +8,9 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/friendly-service/src/app.js",
+            "program": "${workspaceFolder}/bin/app.js",
             "outFiles": [
-                "${workspaceFolder}/friendly-service/src/app.js"
+                "${workspaceFolder}/bin/**/*.js"
             ]
         },
         {
