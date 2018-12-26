@@ -1,5 +1,7 @@
-node_modules
-src/*.js
-src/**/*.js
-bin/
-src/secrets/*
+# friendly-service
+
+friendly-service/node_modules
+friendly-service/src/*.js
+friendly-service/src/**/*.js
+friendly-service/bin/
+friendly-service/src/secrets/*
