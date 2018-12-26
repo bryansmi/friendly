@@ -3,6 +3,7 @@ import { SheetsService } from './services/sheetsService';
 
 import * as twilioCredentials from 'secrets/twilio/twilio-credentials.json';
 import * as friendlySecrets from 'secrets/friendly-secrets.json';
+import { TwilioService } from 'services/twilioService';
 
 export interface ITwilioConfig {
     accountSid: string;
@@ -39,33 +40,13 @@ async function main(): Promise<number> {
     const sheetsService = new SheetsService(SHEETS_CONFIG);
     const sheetData = await sheetsService.getSpreadsheetData('brain');
 
-    sendBirthdayStatusSMS(sheetData);
+    const twilioService = new TwilioService(TWILIO_CONFIG);
+
+    await twilioService.sendBirthdayStatusSMS(sheetData);
 
     return 0;
 }
 
-// tslint:disable-next-line:only-arrow-functions
-async function sendBirthdayStatusSMS(sheetData: Array<Array<string>>): Promise<any> {
-    const client = new Twilio.Twilio(TWILIO_CONFIG.accountSid, TWILIO_CONFIG.authToken);
-
-    //TODO: get SMS body (upcoming birthdays etc)
-    const messageContent = 'placeholder for birthdays';
-
-    for (const row of sheetData) {
-        const messageOptions = {
-            body: messageContent,
-            from: TWILIO_CONFIG.sender,
-            to: TWILIO_CONFIG.bsPhoneNumber
-        };
-
-        try {
-            const response = await client.messages.create(messageOptions);
-            console.log(`MessageInstance: ${JSON.stringify(response)}`);
-        } catch (error) {
-            console.error(`Unable to send text message: ${error}`);
-        }
-    }
-}
 
 main()
 .then((res) => {
