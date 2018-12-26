@@ -1,11 +1,14 @@
 import * as Twilio from 'twilio';
 import { SheetsService } from './services/sheetsService';
-import { strict } from 'assert';
+
+import * as twilioCredentials from 'secrets/twilio/twilio-credentials.json';
+import * as friendlySecrets from 'secrets/friendly-secrets.json';
 
 export interface ITwilioConfig {
     accountSid: string;
     authToken: string;
     sender: string;
+    bsPhoneNumber: string;
 }
 
 export interface ISheetsConfig {
@@ -15,9 +18,10 @@ export interface ISheetsConfig {
 }
 
 const TWILIO_CONFIG: ITwilioConfig = {
-    accountSid: 'ACf1d0f71e7efbdc73ac92cc8045647b05',
-    authToken: '840a4948f94105a1df507227878232a1',
-    sender: '+12489651475'
+    accountSid: twilioCredentials.accountSid,
+    authToken: twilioCredentials.authToken,
+    sender: twilioCredentials.sender,
+    bsPhoneNumber: friendlySecrets.bsPhoneNumber
 };
 
 const SHEETS_CONFIG: ISheetsConfig = {
@@ -33,27 +37,25 @@ async function main(): Promise<number> {
     console.log(`authToken: ${TWILIO_CONFIG.authToken}`);
 
     const sheetsService = new SheetsService(SHEETS_CONFIG);
-    const result = await sheetsService.getPhoneNumberForName('brain');
-    let phoneNumbers: Map<string, string> = new Map<string, string>();
+    const sheetData = await sheetsService.getSpreadsheetData('brain');
 
-    for (const foo of result) {
-        phoneNumbers.set(foo[0], foo[1]);
-    }
-
-    // sendTextMessage(['+12482077738']);
-    sendTextMessage(phoneNumbers);
+    sendBirthdayStatusSMS(sheetData);
 
     return 0;
 }
 
 // tslint:disable-next-line:only-arrow-functions
-async function sendTextMessage(numbers: Map<string,string>): Promise<any> {
+async function sendBirthdayStatusSMS(sheetData: Array<Array<string>>): Promise<any> {
     const client = new Twilio.Twilio(TWILIO_CONFIG.accountSid, TWILIO_CONFIG.authToken);
-    for (const number of numbers) {
+
+    //TODO: get SMS body (upcoming birthdays etc)
+    const messageContent = 'placeholder for birthdays';
+
+    for (const row of sheetData) {
         const messageOptions = {
-            body: 'hello-test-message',
+            body: messageContent,
             from: TWILIO_CONFIG.sender,
-            to: number[1]
+            to: TWILIO_CONFIG.bsPhoneNumber
         };
 
         try {
@@ -67,12 +69,12 @@ async function sendTextMessage(numbers: Map<string,string>): Promise<any> {
 
 main()
 .then((res) => {
-    console.log('--- MAIN.THEN ---');
+    console.log('Success: Finishing friendly-service.');
     console.log(res);
     return res as number;
 })
 .catch((err) => {
-    console.log('--- MAIN.CATCH ---');
+    console.log('Error: Something went wrong and friendly-service stopped.');
     console.error(err);
     return 1;
 });

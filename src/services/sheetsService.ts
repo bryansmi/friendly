@@ -1,9 +1,9 @@
 import { JWT } from 'google-auth-library';
-import { google, sheets_v4 } from 'googleapis';
+import { google } from 'googleapis';
 import { ISheetsConfig } from '../app';
-import * as serviceAccountCredentials from '../secrets/google/friendly-service-serviceaccount-creds.json';
 import { defined } from '../utilities/defined';
-import { analytics } from 'googleapis/build/src/apis/analytics';
+
+import * as googleCredentials from '../secrets/google/friendly-service-serviceaccount-creds.json';
 
 interface IClientCredentials {
     id: string;
@@ -34,7 +34,7 @@ export class SheetsService {
         this.client = this.authorizeSheetsClient(this.client);
     }
 
-    public async getPhoneNumberForName(name: string): Promise<Array<Array<string>>> {
+    public async getSpreadsheetData(name: string): Promise<Array<Array<string>>> {
         const auth = this.client; 
         const sheets = google.sheets({ version: 'v4', auth });
         let result: Array<Array<string>> | undefined;
@@ -60,9 +60,9 @@ export class SheetsService {
         const scope = ['https://www.googleapis.com/auth/spreadsheets'];
 
         if(client === undefined) {
-            client = new google.auth.JWT(serviceAccountCredentials.client_email,
+            client = new google.auth.JWT(googleCredentials.client_email,
                 undefined,
-                serviceAccountCredentials.private_key,
+                googleCredentials.private_key,
                 scope
             );
         } 
