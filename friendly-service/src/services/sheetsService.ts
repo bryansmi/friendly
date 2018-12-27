@@ -1,29 +1,31 @@
 import { JWT } from 'google-auth-library';
 import { google } from 'googleapis';
-import { ISheetsConfig } from '../app';
+import { ISheetsConfig, IFriendlyData } from '../app';
 import { defined } from '../utilities/defined';
 
 import * as googleCredentials from '../secrets/google/friendly-service-serviceaccount-creds.json';
 
-interface IClientCredentials {
-    id: string;
-    secret: string;
-    redirectUri: string;
-}
+class FriendlyData implements IFriendlyData {
+    timestamp: Date;
+    name: string;
+    email: string;
+    countryCode: number;
+    phoneNumber: number;
+    birthday: Date;
+    mailingAddress: string;
 
-class ClientCredentials implements IClientCredentials {
-    id: string; 
-    secret: string;
-    redirectUri: string;
-
-    constructor(data: any) {
-        this.id = data.client_id;
-        this.secret = data.client_secret;
-        this.redirectUri = data.redirect_uris[0];
+    constructor(timestamp: Date, name: string, email: string, countryCode: number, 
+        phoneNumber: number, birthday: Date, mailingAddress: string) 
+    {
+        this.timestamp = timestamp;
+        this.name = name;
+        this.email = email;
+        this.countryCode = countryCode;
+        this.phoneNumber = phoneNumber;
+        this.birthday = birthday;
+        this.mailingAddress = mailingAddress;
     }
 }
-
-type NumberCallback = (err: any, res: any) => Array<Array<string>>;
 
 export class SheetsService {
     private config: ISheetsConfig;
@@ -34,18 +36,24 @@ export class SheetsService {
         this.client = this.authorizeSheetsClient(this.client);
     }
 
-    public async getSpreadsheetData(name: string): Promise<Array<Array<string>>> {
+    public async getSpreadsheetData(name: string): Promise<Array<IFriendlyData>> {
         const auth = this.client; 
         const sheets = google.sheets({ version: 'v4', auth });
-        let result: Array<Array<string>> | undefined;
 
-        var spreadsheetResult = await sheets.spreadsheets.values.get({
+        const spreadsheetResult = await sheets.spreadsheets.values.get({
              range: this.config.testSheetRange,
              spreadsheetId: this.config.testSheetId});
 
-        result = spreadsheetResult.data.values;
-        return defined(result);
+        const values: Array<Array<string>> = defined(spreadsheetResult.data.values);
+        let result = new Array<IFriendlyData>(values.length);
 
+        for(let i = 0; i < values.length; i++) {
+            let row = values[i];
+            result[i] = new FriendlyData(new Date(row[0]), row[1], row[2], Number.parseInt(row[3]), 
+            Number.parseInt(row[4]), new Date(row[5]), row[6]);
+        }
+        
+        return defined(result);
     }
 
     /**

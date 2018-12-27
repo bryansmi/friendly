@@ -1,9 +1,8 @@
-import * as Twilio from 'twilio';
 import { SheetsService } from './services/sheetsService';
+import { TwilioService } from './services/twilioService';
 
-import * as twilioCredentials from 'secrets/twilio/twilio-credentials.json';
-import * as friendlySecrets from 'secrets/friendly-secrets.json';
-import { TwilioService } from 'services/twilioService';
+import * as twilioCredentials from './secrets/twilio/twilio-credentials.json';
+import * as friendlySecrets from './secrets/friendly-secrets.json';
 
 export interface ITwilioConfig {
     accountSid: string;
@@ -18,6 +17,16 @@ export interface ISheetsConfig {
     testSheetRange: string;
 }
 
+export interface IFriendlyData {
+    timestamp: Date;
+    name: string;
+    email: string;
+    countryCode: number;
+    phoneNumber: number;
+    birthday: Date;
+    mailingAddress: string;
+}
+
 const TWILIO_CONFIG: ITwilioConfig = {
     accountSid: twilioCredentials.accountSid,
     authToken: twilioCredentials.authToken,
@@ -27,7 +36,7 @@ const TWILIO_CONFIG: ITwilioConfig = {
 
 const SHEETS_CONFIG: ISheetsConfig = {
     testSheetId: '1WSbDRh81yQkdkYQdagZDNQ1HpDJn_obcYudJzRz2liY',
-    testSheetRange: 'Sheet1!A2:B',
+    testSheetRange: 'Sheet1!A2:G',
     scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
 };
 
@@ -41,7 +50,6 @@ async function main(): Promise<number> {
     const sheetData = await sheetsService.getSpreadsheetData('brain');
 
     const twilioService = new TwilioService(TWILIO_CONFIG);
-
     await twilioService.sendBirthdayStatusSMS(sheetData);
 
     return 0;
