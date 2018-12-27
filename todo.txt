@@ -1,0 +1,7 @@
+1. Add README.md
+    - What is this?
+    - How do I use this?
+2. Add unit tests + refactor as needed
+    - Tests for both service classes
+3. Write blog post
+4. Get feedback and ideas from Riley Kyle Lauren Keegan and Courtney
