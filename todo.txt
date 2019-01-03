@@ -1,6 +1,4 @@
-1. Add README.md
-    - What is this?
-    - How do I use this?
+1. How to handle versions between docker / node / cron
 2. Add unit tests + refactor as needed
     - Tests for both service classes
 3. Write blog post
