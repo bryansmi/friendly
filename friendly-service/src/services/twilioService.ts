@@ -58,10 +58,10 @@ export class TwilioService {
         }
 
         if(upcomingBirthdays === '') {
-            return `There's some birthdays today! ${upcomingBirthdays} have birthdays today. 
+            return `There's some birthdays today! ${currentBirthdays} have birthdays today. 
             Make sure you wish them a happy birthday!`;
         } else if(currentBirthdays === '') {
-            return `There's some birthdays coming up: ${currentBirthdays} have birthdays in seven (7) days. 
+            return `There's some birthdays coming up: ${upcomingBirthdays} have birthdays in seven (7) days. 
             Think about doing something nice be ready!`;
         } else {
             return `There's some birthdays today! ${currentBirthdays} have birthdays today. 
