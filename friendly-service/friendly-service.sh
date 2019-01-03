@@ -1,4 +1,5 @@
 #!/bin/bash
+source $HOME/.bashrc
 
 # get version
 if [[ $1 ]]; then
