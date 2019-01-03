@@ -5,7 +5,7 @@ source $HOME/.bashrc
 if [[ $1 ]]; then
     VERSION=$1
 else
-    VERSION="1.0"
+    VERSION="1.1"
 fi
 
 echo "$(date): friendly-service: Using version $VERSION."
@@ -27,4 +27,3 @@ fi
 # start friendly-service
 echo "$(date) friendly-service: Starting friendly-service."
 docker run -p 8080:8080 $IMAGE_NAME
-docker logout
