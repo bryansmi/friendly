@@ -13,7 +13,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "npm run test"
+    "test": "npm run test",
+    "start": "node ./bin/app.js"
   },
   "author": "brain",
   "license": "ISC",
