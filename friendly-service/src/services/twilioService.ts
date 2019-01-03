@@ -39,8 +39,6 @@ export class TwilioService {
         let upcomingBirthdays: string = '';
         let currentBirthdays: string = '';
 
-        console.log(`sheet data: ${JSON.stringify(sheetData)}`);
-
         for(let i = 0; i < sheetData.length; i++) {
             let today = new Date();
             let sevenDays = new Date(today.getTime() + 1000*60*60*24*7);
@@ -55,8 +53,6 @@ export class TwilioService {
             }
         }
 
-        console.log(`upcoming: ${JSON.stringify(upcomingBirthdays)}`);
-        console.log(`current: ${JSON.stringify(currentBirthdays)}`);
         if(upcomingBirthdays === '' && currentBirthdays === '') {
             return undefined;
         }

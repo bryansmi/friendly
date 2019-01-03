@@ -5,7 +5,7 @@ source $HOME/.bashrc
 if [[ $1 ]]; then
     VERSION=$1
 else
-    VERSION="1.1"
+    VERSION="1.3"
 fi
 
 echo "$(date): friendly-service: Using version $VERSION."
