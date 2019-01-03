@@ -9,7 +9,8 @@ COPY package*.json ./
 RUN npm install
 
 # Bundle app source
-COPY . .
+COPY ./src/secrets ./src/secrets
+COPY ./bin ./bin
 
 EXPOSE 8080
 CMD [ "npm", "start" ]

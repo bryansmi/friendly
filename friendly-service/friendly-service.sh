@@ -12,7 +12,7 @@ echo "$(date): friendly-service: Using version $VERSION."
 IMAGE_NAME="bryansmi/private:friendly-service-$VERSION"
 
 # docker login
-echo "$(date) friendly-service: Logging into docker hub."
+echo "$(date): friendly-service: Logging into docker hub."
 cat /usr/local/secrets/dockerhub.txt | docker login --username bryansmi --password-stdin
 
 # docker image get
