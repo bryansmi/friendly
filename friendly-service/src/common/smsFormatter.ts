@@ -1,45 +1,52 @@
 import { IFriendlyData } from "app";
+import { SmsBodies } from "./strings";
 
 export function getBirthdaySMSBody(sheetData: Array<IFriendlyData>): string | undefined {
     let upcomingBirthdays: string = '';
     let currentBirthdays: string = '';
 
+    if(sheetData.length === 0) {
+        return undefined;
+    }
+
     try {
         for(let i = 0; i < sheetData.length; i++) {
-            let today = new Date();
-            let sevenDays = new Date(today.getTime() + 1000*60*60*24*7);
-            let birthday = sheetData[i].birthday;
+            const birthDay = sheetData[i].birthday.getDate();
+            const birthMonth = sheetData[i].birthday.getMonth();
 
-            if(birthday.getDate() === sevenDays.getDate() && birthday.getMonth() == sevenDays.getMonth()) {
+            let today = new Date();
+
+            if(birthDay === today.getDate() && birthMonth === today.getMonth()) {
+                currentBirthdays += `${sheetData[i].name}, `;
+            }
+
+            let sevenDays = new Date(today.getTime() + 1000*60*60*24*7);
+            let sevenDay = sevenDays.getDate();
+            let sevenDayAndBirthDayGap = sevenDay - birthDay;
+
+            if(sevenDayAndBirthDayGap < 7 &&  sevenDayAndBirthDayGap > 0 && birthMonth === sevenDays.getMonth()) {
                 upcomingBirthdays += `${sheetData[i].name}, `;
             }
 
-            if(birthday.getDate() === today.getDate() && birthday.getMonth() == today.getMonth()) {
-                currentBirthdays += `${sheetData[i].name}, `;
+            if(i === sheetData.length - 1) {
+                if(upcomingBirthdays === '' && currentBirthdays === '') {
+                    return undefined;
+                }
+
+                upcomingBirthdays = upcomingBirthdays !== '' ? upcomingBirthdays.substring(0, upcomingBirthdays.length - 2) : upcomingBirthdays;
+                currentBirthdays = currentBirthdays !== '' ? currentBirthdays.substring(0, currentBirthdays.length - 2) : currentBirthdays;
             }
         }
 
-        if (upcomingBirthdays != '') {
-            upcomingBirthdays.substring(0, upcomingBirthdays.length - 2);
-        }
-        if (currentBirthdays!= '') {
-            currentBirthdays.substring(0, currentBirthdays.length - 2);
-        }
-
-        if(upcomingBirthdays === '' && currentBirthdays === '') {
-            return undefined;
-        }
-
         if(upcomingBirthdays === '') {
-            return `There's some birthdays today! ${currentBirthdays} have birthdays today. 
-            Make sure you wish them a happy birthday!`;
+            console.log(`Birthdays today: ${currentBirthdays}`);
+            return SmsBodies.birthdaysToday(currentBirthdays);
         } else if(currentBirthdays === '') {
-            return `There's some birthdays coming up: ${upcomingBirthdays} have birthdays in seven (7) days. 
-            Think about doing something nice be ready!`;
+            console.log(`Birthdays soon: ${upcomingBirthdays}`);
+            return SmsBodies.birthdaysSoon(upcomingBirthdays);
         } else {
-            return `There's some birthdays today! ${currentBirthdays} have birthdays today. 
-            Make sure you wish them a happy birthday!
-            Upcoming birthdays: ${upcomingBirthdays}.`;
+            console.log(`Birthdays today and soon: ${currentBirthdays}, ${upcomingBirthdays}`);
+            return SmsBodies.birthdaysTodayAndSoon(currentBirthdays, upcomingBirthdays);
         }
     } catch (error) {
         console.error(`Something went wrong formatting the SMS message: ${error}`);
