@@ -1,7 +1,7 @@
 import { ITwilioConfig, IFriendlyData } from "app";
 import { Twilio } from "twilio";
 import { defined } from "../utilities/defined";
-import { getBirthdaySMSBody } from "common/smsFormatter";
+import { getBirthdaySMSBody } from "../common/smsFormatter";
 
 export class TwilioService {
     private config: ITwilioConfig;

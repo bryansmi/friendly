@@ -18,8 +18,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "mocha -r ts-node/register 'test/**/*.ts'",
-    "start": "node ./bin/app.js"
+    "test": "tsc && mocha -r ts-node/register 'test/**/*.ts'",
+    "start": "tsc && node ./bin/app.js"
   },
   "author": "brain",
   "license": "ISC",

@@ -18,6 +18,23 @@
                 "reveal": "always",
                 "panel": "shared"
             }
+        },
+        {
+            "label": "watch",
+            "type": "shell",
+            "command": "tsc",
+            "args": [ 
+                "--skipLibCheck",
+                "--watch"
+            ],
+            "problemMatcher": [
+                "$tsc"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
         }
     ]
 }

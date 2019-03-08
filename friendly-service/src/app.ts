@@ -1,8 +1,9 @@
 import { SheetsService } from './services/sheetsService';
 import { TwilioService } from './services/twilioService';
 
-import * as twilioCredentials from './secrets/twilio/twilio-credentials.json';
-import * as friendlySecrets from './secrets/friendly-secrets.json';
+import twilioCredentials from './secrets/twilio/twilio-credentials.json';
+import friendlySecrets from './secrets/friendly-secrets.json';
+import { defined } from './utilities/defined';
 
 export interface ITwilioConfig {
     accountSid: string;
@@ -41,7 +42,7 @@ const SHEETS_CONFIG: ISheetsConfig = {
 };
 
 // tslint:disable-next-line:only-arrow-functions
-async function main(): Promise<number> {
+async function main(): Promise<any> {
     console.log('Starting Friendly...');
     console.log(`accountSid: ${TWILIO_CONFIG.accountSid}`);
     console.log(`authToken: ${TWILIO_CONFIG.authToken}`);
@@ -50,9 +51,7 @@ async function main(): Promise<number> {
     const sheetData = await sheetsService.getSpreadsheetData('brain');
 
     const twilioService = new TwilioService(TWILIO_CONFIG);
-    await twilioService.sendBirthdayStatusSMS(sheetData);
-
-    return 0;
+    await twilioService.sendBirthdayStatusSMS(defined(sheetData));
 }
 
 
@@ -60,7 +59,7 @@ main()
 .then((res) => {
     console.log('Success: Finishing friendly-service.');
     console.log(res);
-    return res as number;
+    return 0;
 })
 .catch((err) => {
     console.log('Error: Something went wrong and friendly-service stopped.');

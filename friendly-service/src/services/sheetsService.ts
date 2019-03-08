@@ -3,7 +3,7 @@ import { google } from 'googleapis';
 import { ISheetsConfig, IFriendlyData } from '../app';
 import { defined } from '../utilities/defined';
 
-import * as googleCredentials from '../secrets/google/friendly-service-serviceaccount-creds.json';
+import googleCredentials from '../secrets/google/friendly-service-serviceaccount-creds.json';
 
 class FriendlyData implements IFriendlyData {
     timestamp: Date;
