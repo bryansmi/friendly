@@ -1,5 +1,10 @@
-1. How to handle versions between docker / node / cron
-2. Add unit tests + refactor as needed
-    - Tests for both service classes
-3. Write blog post
-4. Get feedback and ideas from Riley Kyle Lauren Keegan and Courtney
+- Deploy using docker build script
+- Figure out more sane way to run app
+- Create readme containing
+    - overview
+    - setup
+    - secrets
+    - deployment
+- Create roadmap
+- How to handle versions between docker / node / cron
+- Write blog post
