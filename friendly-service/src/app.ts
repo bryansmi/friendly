@@ -2,7 +2,7 @@ import { SheetsService } from './services/sheetsService';
 import { TwilioService } from './services/twilioService';
 
 import twilioCredentials from './secrets/twilio/twilio-credentials.json';
-import friendlySecrets from './secrets/friendly-secrets.json';
+import friendlySecrets from './secrets/friendly/friendly-secrets.json';
 import { defined } from './utilities/defined';
 
 export interface ITwilioConfig {

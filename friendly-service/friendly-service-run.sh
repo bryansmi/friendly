@@ -2,6 +2,7 @@
 source $HOME/.bashrc
 
 # docker login
+## TODO: Move this secret into `friendly-secrets.json`
 echo "$(date): friendly-service-run: Logging into docker hub."
 cat /usr/local/secrets/dockerhub.txt | docker login --username bryansmi --password-stdin
 
