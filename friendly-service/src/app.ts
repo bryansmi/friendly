@@ -58,7 +58,6 @@ async function main(): Promise<any> {
 main()
 .then((res) => {
     console.log('Success: Finishing friendly-service.');
-    console.log(res);
     return 0;
 })
 .catch((err) => {
