@@ -1,7 +1,7 @@
 {
   "name": "friendly-service",
   "version": "0.1.0",
-  "description": "send and get phone numbers",
+  "description": "SMS notifications of current and upcoming birthdays!",
   "main": "app.js",
   "dependencies": {
     "@types/chai": "^4.1.7",
@@ -19,7 +19,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "tsc && mocha -r ts-node/register 'test/**/*.ts'",
-    "start": "tsc && node ./bin/app.js"
+    "start": "node ./bin/app.js"
   },
   "author": "brain",
   "license": "ISC",
