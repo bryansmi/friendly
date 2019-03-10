@@ -87,8 +87,7 @@ You can choose to deploy `friendly-service` however you want - it's just a node 
 However, for those deploying to home servers, some helpful scripts have been included.
 
 #### friendly-service-deploy.sh
-`friendly-service-deploy` will find login to docker, find the current version (see below), iterate the minor version once (`1.x` -> `1.x+1`), 
-build a new Docker image, tag it, and push it to the repo named in `friendly-secrets.json`.
+`friendly-service-deploy` will login to docker, version the image, build a new Docker image, tag it, and push it to the repo named in `friendly-secrets.json`.
 
 _Example_
 
@@ -105,10 +104,9 @@ Running `friendly-service-deploy.sh` will login to dockerhub, create an image ta
 This script is intended to be run via cron to run this as a scheduled job.
 
 #### Versioning
-Versions are kept in `version.txt`.
-Versions are automatically updated when `friendly-service-deploy` is run.
+Docker image versions are based on commit hash and time in the following format:
 
-Change this file at your own risk.
+`{repo-name}:friendly-service-{hash}-{date-in-seconds}`
 
 ## Deployment
 `friendly-service` can be deployed in a variety of ways:

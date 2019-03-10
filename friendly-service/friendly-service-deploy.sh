@@ -8,25 +8,15 @@ DOCKER_REPO=$(cat ./src/secrets/friendly/friendly-secrets.json | grep "dockerHub
 
 docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
 
-# update version
-CURRENT_VERSION=$(cat version.txt)
-echo "$(date) friendly-service-deploy: Current verison: $CURRENT_VERSION"
-
-CURRENT_MINOR=$(echo $CURRENT_VERSION | cut -d'.' -f2) 
-CURRENT_MAJOR=$(echo $CURRENT_VERSION | cut -d'.' -f1) 
-NEW_MINOR=$(($CURRENT_MINOR + 1))
-NEW_VERSION=$CURRENT_MAJOR"."$NEW_MINOR
-echo "$(date) friendly-service-deploy: New version: $NEW_VERSION"
-
-echo "$(date) friendly-service-deploy: Writing new version to version.txt"
-echo $NEW_VERSION > version.txt
-VERSION=$(cat version.txt)
-echo "$(date) friendly-service-deploy: Version: $VERSION"
+# update version using commit and time
+GIT_HASH=$(git log --pretty=format:'%h' -n 1)
+DATE_SECONDS=$(date +"%s")
+IMAGE_VERSION=$DOCKER_REPO:friendly-service-$GIT_HASH-$DATE_SECONDS
 
 # push new image
 echo "$(date) friendly-service-deploy: Remove old friendly-service image"
 docker image rm friendly-service:latest
-echo "$(date) friendly-service-deploy: Build new image as bryansmi/private:friendly-service-$VERSION"
-docker image build . -t $DOCKER_REPO:friendly-service-$VERSION
-echo "$(date) friendly-service-deploy: Push to registry"
-docker image push $DOCKER_REPO:friendly-service-$VERSION
+echo "$(date) friendly-service-deploy: Build new image as $IMAGE_VERSION"
+docker image build . -t $IMAGE_VERSION
+echo "$(date) friendly-service-deploy: Push $IMAGE_VERSION to registry"
+docker image push $IMAGE_VERSION
