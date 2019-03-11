@@ -1,10 +1,5 @@
-- Deploy using docker build script
-- Figure out more sane way to run app
-- Create readme containing
-    - overview
-    - setup
-    - secrets
-    - deployment
-- Create roadmap
-- How to handle versions between docker / node / cron
 - Write blog post
+- Nuke Kirk and re-build stronger, better
+- Support conversations for details
+- Support birthday idea CRUD
+- Re-evaluate mobile apps
