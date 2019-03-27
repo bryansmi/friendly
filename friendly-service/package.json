@@ -22,7 +22,8 @@
   "scripts": {
     "test": "tsc && mocha -r ts-node/register 'test/**/*.ts'",
     "build": "tsc",
-    "start": "npm run build && node ./bin/app.js"
+    "start": "npm run build && node ./bin/app.js",
+    "prod": "node ./bin/app.js"
   },
   "author": "brain",
   "license": "ISC",
