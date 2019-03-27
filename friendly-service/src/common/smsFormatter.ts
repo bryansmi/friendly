@@ -21,10 +21,9 @@ export function getBirthdaySMSBody(sheetData: Array<IFriendlyData>): string | un
             }
 
             let sevenDays = new Date(today.getTime() + 1000*60*60*24*7);
-            let sevenDay = sevenDays.getDate();
-            let sevenDayAndBirthDayGap = sevenDay - birthDay;
-
-            if(sevenDayAndBirthDayGap < 7 &&  sevenDayAndBirthDayGap > 0 && birthMonth === sevenDays.getMonth()) {
+            let sevenDayOffset = new Date(sevenDays.getTime() - sheetData[i].birthday.getTime()).getDate();
+            
+            if(sevenDayOffset <= 7 && sevenDayOffset > 0) {
                 upcomingBirthdays += `${sheetData[i].name}, `;
             }
 
