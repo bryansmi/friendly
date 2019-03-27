@@ -1,4 +1,8 @@
 #!/bin/bash
+set -e
+
+# run tests
+npm run test
 
 # docker login
 echo "$(date): friendly-service-run: Logging into docker hub."
@@ -14,8 +18,6 @@ DATE_SECONDS=$(date +"%s")
 IMAGE_VERSION=$DOCKER_REPO:friendly-service-$GIT_HASH-$DATE_SECONDS
 
 # push new image
-echo "$(date) friendly-service-deploy: Remove old friendly-service image"
-docker image rm friendly-service:latest
 echo "$(date) friendly-service-deploy: Build new image as $IMAGE_VERSION"
 docker image build . -t $IMAGE_VERSION
 echo "$(date) friendly-service-deploy: Push $IMAGE_VERSION to registry"
