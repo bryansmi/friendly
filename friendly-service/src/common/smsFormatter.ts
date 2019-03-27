@@ -1,5 +1,6 @@
 import { IFriendlyData } from "app";
 import { SmsBodies } from "./strings";
+import moment from "moment";
 
 export function getBirthdaySMSBody(sheetData: Array<IFriendlyData>): string | undefined {
     console.log("Creating SMS body...");
@@ -11,20 +12,17 @@ export function getBirthdaySMSBody(sheetData: Array<IFriendlyData>): string | un
     }
 
     try {
+        const today = moment();
+        const sevenDayOffset = moment().add(7, 'days');
         for(let i = 0; i < sheetData.length; i++) {
-            const birthDay = sheetData[i].birthday.getDate();
-            const birthMonth = sheetData[i].birthday.getMonth();
+            const birthday = moment(sheetData[i].birthday);
 
-            const today = new Date();
-
-            if(birthDay === today.getDate() && birthMonth === today.getMonth()) {
+            if(birthday.dayOfYear() === today.dayOfYear()) {
                 currentBirthdays += `${sheetData[i].name}, `;
             }
 
-            const sevenDays = new Date(today.getTime() + 1000*60*60*24*7);
-            const sevenDayOffset = new Date(sevenDays.getTime() - sheetData[i].birthday.getTime()).getDate();
-            
-            if(sevenDayOffset <= 7 && sevenDayOffset > 0) {
+            const diff = sevenDayOffset.dayOfYear() - birthday.dayOfYear();
+            if( diff < 7 && diff >= 0) {
                 upcomingBirthdays += `${sheetData[i].name}, `;
             }
 
