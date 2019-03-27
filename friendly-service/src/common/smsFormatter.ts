@@ -2,6 +2,7 @@ import { IFriendlyData } from "app";
 import { SmsBodies } from "./strings";
 
 export function getBirthdaySMSBody(sheetData: Array<IFriendlyData>): string | undefined {
+    console.log("Creating SMS body...");
     let upcomingBirthdays: string = '';
     let currentBirthdays: string = '';
 
