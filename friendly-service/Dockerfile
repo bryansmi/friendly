@@ -16,4 +16,4 @@ COPY ./src/secrets ./src/secrets
 COPY ./bin ./bin
 
 EXPOSE 8080
-CMD [ "npm", "prod" ]
+CMD [ "npm", "run", "prod" ]
