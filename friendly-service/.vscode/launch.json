@@ -8,8 +8,8 @@
             "type": "node",
             "request": "launch",
             "name": "Debug",
-            "prelaunchtask": "watch",
             "program": "${workspaceFolder}/src/app.ts",
+            "preLaunchTask": "tsc: build - tsconfig.json",
             "protocol": "inspector",
             "cwd": "${workspaceRoot}",
             "outFiles": [
@@ -22,8 +22,8 @@
             "type": "node",
             "request": "launch",
             "name": "Test",
-            "prelaunchtask": "compile",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "preLaunchTask": "tsc: build - tsconfig.json",
             "args": [
                 "-r",
                 "ts-node/register",

@@ -1,6 +1,5 @@
 import { ITwilioConfig, IFriendlyData } from "app";
 import { Twilio } from "twilio";
-import { defined } from "../utilities/defined";
 import { getBirthdaySMSBody } from "../common/smsFormatter";
 
 export class TwilioService {
@@ -12,8 +11,11 @@ export class TwilioService {
         this.client = new Twilio(this.config.accountSid, this.config.authToken);
     }
 
-    public async sendBirthdayStatusSMS(sheetData: Array<IFriendlyData>): Promise<any> {
-        const messageContent = defined(getBirthdaySMSBody(sheetData));
+    public async sendBirthdayStatusSMS(sheetData: Array<IFriendlyData>): Promise<void> {
+        const messageContent = getBirthdaySMSBody(sheetData);
+        if (messageContent === undefined) {
+            return;
+        }
 
         const messageOptions = {
             body: messageContent,

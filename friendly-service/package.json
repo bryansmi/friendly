@@ -21,7 +21,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "tsc && mocha -r ts-node/register 'test/**/*.ts'",
-    "start": "node ./bin/app.js"
+    "build": "tsc",
+    "start": "npm run build && node ./bin/app.js"
   },
   "author": "brain",
   "license": "ISC",
