@@ -120,14 +120,14 @@ Docker image versions are based on commit hash and time in the following format:
 
 ### Cron
 To run this as a scheduled daily job, I use cron.
-`crontab -e` looks as such:
+`sudo crontab -e` looks as such:
 ```
-SHELL=/bin/bash
-PATH=/usr/bin:/bin:/usr/local/bin
-
 # friendly
 ## friendly-service
-10 12 * * * /Users/smith.bryan/code/personal/friendly/friendly-service/friendly-service.sh 1.3 >> /Users/smith.bryan/code/personal/friendly/friendly-service/fs.log
+SHELL=/bin/bash
+MAILTO=brain
+PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+10 12 * * *  cd /home/brain/codes/friendly/friendly-service && ./friendly-service-run.sh >> /home/brain/logs/friendly-service-cron.txt 2>&1
 ```
 
 ## Resources
