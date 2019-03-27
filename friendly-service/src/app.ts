@@ -5,6 +5,8 @@ import twilioCredentials from './secrets/twilio/twilio-credentials.json';
 import friendlySecrets from './secrets/friendly/friendly-secrets.json';
 import { defined } from './utilities/defined';
 import { ITwilioConfig, ISheetsConfig } from 'models/configurations';
+import { Express } from 'express';
+import express = require('express');
 
 const TWILIO_CONFIG: ITwilioConfig = {
     accountSid: twilioCredentials.accountSid,
@@ -19,26 +21,43 @@ const SHEETS_CONFIG: ISheetsConfig = {
     scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
 };
 
-async function main(): Promise<any> {
-    console.log('Starting Friendly...');
-    console.log(`accountSid: ${TWILIO_CONFIG.accountSid}`);
-    console.log(`authToken: ${TWILIO_CONFIG.authToken}`);
+const app: Express = express();
+const port: number = 1337;
 
-    const sheetsService = new SheetsService(SHEETS_CONFIG);
-    const sheetData = await sheetsService.getSpreadsheetData('brain');
+function main(): void {
+    app.use((req, res, next) => {
+        req.secure ? next() : res.redirect('https://' + req.headers.host + req.url);
+    });
 
-    const twilioService = new TwilioService(TWILIO_CONFIG);
-    await twilioService.sendBirthdayStatusSMS(defined(sheetData));
+    app.get('/', (req, res) => {
+        res.send('Hello world!');
+    });
+
+    app.get('/birthdays', async (req, res) => {
+        console.log('Starting Friendly...');
+        const sheetsService = new SheetsService(SHEETS_CONFIG)
+        const sheetData = await sheetsService.getSpreadsheetData('brain');
+
+        const twilioService = new TwilioService(TWILIO_CONFIG);
+        await twilioService.sendBirthdayStatusSMS(defined(sheetData));
+        res.send('SMS sent to default phone number.');
+    });
+
+    app.listen(port, () => {
+        console.log(`friendly-service server started at http://localhost:${ port }`);
+    });
 }
 
+export = app;
 
-main()
-.then((res) => {
-    console.log('Success: Finishing friendly-service.');
-    return 0;
-})
-.catch((err) => {
-    console.log('Error: Something went wrong and friendly-service stopped.');
-    console.error(err);
-    return 1;
-});
+// async function main(): Promise<any> {
+//     console.log('Starting Friendly...');
+//     console.log(`accountSid: ${TWILIO_CONFIG.accountSid}`);
+//     console.log(`authToken: ${TWILIO_CONFIG.authToken}`);
+
+//     const sheetsService = new SheetsService(SHEETS_CONFIG)
+//     const sheetData = await sheetsService.getSpreadsheetData('brain');
+
+//     const twilioService = new TwilioService(TWILIO_CONFIG);
+//     await twilioService.sendBirthdayStatusSMS(defined(sheetData));
+// }

@@ -1,4 +1,5 @@
 #!/bin/bash
+# TODO: Refactor this to take a friendly-secrets.json as a param as well
 # docker login
 echo "$(date): friendly-service-run: Logging into docker hub."
 DOCKER_USERNAME=$(cat ./src/secrets/friendly/friendly-secrets.json | grep "dockerHubUsername" | cut -d ":" -f2 | sed 's/[",,]//g' | tr -d '[:space:]')
