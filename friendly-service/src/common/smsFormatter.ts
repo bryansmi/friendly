@@ -14,14 +14,14 @@ export function getBirthdaySMSBody(sheetData: Array<IFriendlyData>): string | un
             const birthDay = sheetData[i].birthday.getDate();
             const birthMonth = sheetData[i].birthday.getMonth();
 
-            let today = new Date();
+            const today = new Date();
 
             if(birthDay === today.getDate() && birthMonth === today.getMonth()) {
                 currentBirthdays += `${sheetData[i].name}, `;
             }
 
-            let sevenDays = new Date(today.getTime() + 1000*60*60*24*7);
-            let sevenDayOffset = new Date(sevenDays.getTime() - sheetData[i].birthday.getTime()).getDate();
+            const sevenDays = new Date(today.getTime() + 1000*60*60*24*7);
+            const sevenDayOffset = new Date(sevenDays.getTime() - sheetData[i].birthday.getTime()).getDate();
             
             if(sevenDayOffset <= 7 && sevenDayOffset > 0) {
                 upcomingBirthdays += `${sheetData[i].name}, `;
