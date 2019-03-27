@@ -1,5 +1,5 @@
-import { IFriendlyData } from "../../src/app";
-import { getBirthdaySMSBody } from "../../src/common/smsFormatter";
+import { IFriendlyData } from "../../src/common/models";
+import { getBirthdaySMSBody } from "../../src/utilities/smsFormatter";
 import { expect } from "chai";
 import "mocha";
 import { SmsBodies } from "../../src/common/strings";

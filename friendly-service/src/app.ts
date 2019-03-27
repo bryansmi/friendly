@@ -4,29 +4,7 @@ import { TwilioService } from './services/twilioService';
 import twilioCredentials from './secrets/twilio/twilio-credentials.json';
 import friendlySecrets from './secrets/friendly/friendly-secrets.json';
 import { defined } from './utilities/defined';
-
-export interface ITwilioConfig {
-    accountSid: string;
-    authToken: string;
-    sender: string;
-    bsPhoneNumber: string;
-}
-
-export interface ISheetsConfig {
-    scopes: string[];
-    testSheetId: string;
-    testSheetRange: string;
-}
-
-export interface IFriendlyData {
-    timestamp: Date;
-    name: string;
-    email: string;
-    countryCode: number;
-    phoneNumber: number;
-    birthday: Date;
-    mailingAddress: string;
-}
+import { ITwilioConfig, ISheetsConfig } from 'models/configurations';
 
 const TWILIO_CONFIG: ITwilioConfig = {
     accountSid: twilioCredentials.accountSid,
@@ -36,12 +14,11 @@ const TWILIO_CONFIG: ITwilioConfig = {
 };
 
 const SHEETS_CONFIG: ISheetsConfig = {
-    testSheetId: '1WSbDRh81yQkdkYQdagZDNQ1HpDJn_obcYudJzRz2liY',
-    testSheetRange: 'Sheet1!A2:G',
+    sheetId: '1WSbDRh81yQkdkYQdagZDNQ1HpDJn_obcYudJzRz2liY',
+    sheetRange: 'Sheet1!A2:G',
     scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
 };
 
-// tslint:disable-next-line:only-arrow-functions
 async function main(): Promise<any> {
     console.log('Starting Friendly...');
     console.log(`accountSid: ${TWILIO_CONFIG.accountSid}`);

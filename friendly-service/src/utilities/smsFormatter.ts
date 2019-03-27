@@ -1,5 +1,5 @@
-import { IFriendlyData } from "app";
-import { SmsBodies } from "./strings";
+import { IFriendlyData } from "../common/models";
+import { SmsBodies } from "../common/strings";
 import moment from "moment";
 
 export function getBirthdaySMSBody(sheetData: Array<IFriendlyData>): string | undefined {
